@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HPTE7VW4ZJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-HPTE7VW4ZJ');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="BUAA blog,hpc">
+    <meta name="keyword"  content="BUAA blog,hpc">
+    <link rel="shortcut icon" href="/img/good.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    <title>
+        
+          Lecture 2 Bentley Rules for Optimizing Work - CHenJulian
+        
+    </title>
+
+    <link rel="canonical" href="https://julianchan-cjl.github.io/2023/01/07/mit6172-2/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../../../img/default.jpg')
+                /*post*/
+            
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Performance Engineering Of Software Systems" title="Performance Engineering Of Software Systems">Performance Engineering Of Software Systems</a>
+                            
+                        </div>
+                        <h1>Lecture 2 Bentley Rules for Optimizing Work</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Julian Chan on
+                            2023-01-07
+                        </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">1.4k</span> and
+                                Reading Time <span class="post-count">7</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
+                    </div>
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Julian&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="DATA-STRUCTURES"><a href="#DATA-STRUCTURES" class="headerlink" title="DATA STRUCTURES"></a>DATA STRUCTURES</h1><h3 id="Packing-and-Encoding"><a href="#Packing-and-Encoding" class="headerlink" title="Packing and Encoding"></a>Packing and Encoding</h3><p><strong>The idea of packing is to store more than one data value in a machine word. The related idea of encoding is to convert data values into a representation requiring fewer bits.</strong></p>
+<h4 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h4><p>Encoding dates</p>
+<ul>
+<li>The string “September 11, 2018” can be stored in 18 bytes — more than two double (64-bit) words which must moved whenever a date is manipulated.</li>
+</ul>
+<h4 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h4><ul>
+<li>Assuming that we only store years between 4096 B.C.E. and 4096 C.E., there are about 365.25 × 8192 ≈ 3 M dates, which can be encoded in ⎡lg(3×106)⎤ = 22 bits, easily fitting in a single (32-bit) word.</li>
+</ul>
+<p>But determining the month of a date takes more work than with the string representation.</p>
+<ul>
+<li><p>Instead，pack the three fields into a word</p>
+<p>typedef struct{<br>int year: 13;<br>int month: 4;<br>int day: 5;<br>} date_t;</p>
+</li>
+<li><p>This packed representation still only takes 22 bits(Actually this will pack the struct a little bit at the end), but the individual fields can be extracted much more quickly than if we had encoded the 3 M dates as sequential integers</p>
+</li>
+</ul>
+<p><strong>Sometimes unpacking and decoding are the optimization, depending on whether more work is involved moving the data or operating on it.</strong></p>
+<h3 id="Augmentation"><a href="#Augmentation" class="headerlink" title="Augmentation"></a>Augmentation</h3><p><strong>The idea of data-structure augmentation is to add information to a data structure to make common operations do less work.</strong></p>
+<ul>
+<li>Appending singly linked lists</li>
+</ul>
+<h3 id="Precomputation"><a href="#Precomputation" class="headerlink" title="Precomputation"></a>Precomputation</h3><p><strong>The idea of precomputation is to perform calculations in advance so as to avoid doing them at “missioncritical” times.</strong></p>
+<h4 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h4><p>Binomial coefficients<br>【Latex 公式！！！！！！！！！】</p>
+<ul>
+<li>Computing the “choose” function by implementing this formula can be expensive (lots of multiplications)</li>
+<li>Watch out for <strong>integer overflow</strong> for even modest values of n and k.</li>
+</ul>
+<h4 id="Idea-1"><a href="#Idea-1" class="headerlink" title="Idea"></a>Idea</h4><p>Precompute the table of coefficients when initializing, and perform table look-up at runtime.</p>
+<ul>
+<li>Pascal’s Triangle<ul>
+<li>vertical axis - n</li>
+<li>horizontal axis - k</li>
+</ul>
+</li>
+</ul>
+<p><img src="table1.png" alt="2023-01-05-mit6172-2"></p>
+<p><img src="table2.png" alt="2023-01-05-mit6172-2"></p>
+<h3 id="Compile-Time-Initialization"><a href="#Compile-Time-Initialization" class="headerlink" title="Compile-Time Initialization"></a>Compile-Time Initialization</h3><p><strong>The idea of compile-time initialization is to store the values of constants during compilation, saving work at execution time.</strong></p>
+<p><img src="table3.png" alt="2023-01-05-mit6172-2"></p>
+<h4 id="Idea-2"><a href="#Idea-2" class="headerlink" title="Idea"></a>Idea</h4><p>Create large static tables by metaprogramming.（easier in Python）</p>
+<h3 id="Caching"><a href="#Caching" class="headerlink" title="Caching"></a>Caching</h3><p><strong>The idea of caching is to store results that have been accessed recently so that the program need not compute them again.</strong></p>
+<p><img src="cache.png" alt="2023-01-05-mit6172-2"></p>
+<ul>
+<li>可以做大一点的 cache，这样搜索 cache 耗时会增加，但也可以节省运行时间</li>
+<li>可以在软件上实现而不依靠硬件的 cache 来做</li>
+</ul>
+<h3 id="Sparsity"><a href="#Sparsity" class="headerlink" title="Sparsity"></a>Sparsity</h3><p><strong>The idea of exploiting sparsity is to avoid storing and computing on zeroes. “Thefastestwaytocomputeis nottocomputeatall.”</strong></p>
+<h4 id="Example-2"><a href="#Example-2" class="headerlink" title="Example"></a>Example</h4><p>Matrix-vector multiplication</p>
+<p><img src="matrix1.png" alt="2023-01-05-mit6172-2"></p>
+<h4 id="Idea-3"><a href="#Idea-3" class="headerlink" title="Idea"></a>Idea</h4><p>Compressed Sparse Row (稀疏矩阵的主要存储格式之一)<br><img src="matrix2.png" alt="2023-01-05-mit6172-2"></p>
+<p><img src="matrix3.png" alt="2023-01-05-mit6172-2"></p>
+<p><img src="matrix4.png" alt="2023-01-05-mit6172-2"></p>
+<p><img src="matrix5.png" alt="2023-01-05-mit6172-2"></p>
+<h1 id="LOGIC"><a href="#LOGIC" class="headerlink" title="LOGIC"></a>LOGIC</h1><h3 id="Constant-Folding-and-Propagation"><a href="#Constant-Folding-and-Propagation" class="headerlink" title="Constant Folding and Propagation"></a>Constant Folding and Propagation</h3><p><strong>The idea of constant folding and propagation is to evaluate constant expressions and substitute the result into further expressions, all during compilation.</strong></p>
+<p><img src="CFaP1.png" alt="2023-01-05-mit6172-2"></p>
+<p><strong>With a sufficiently high optimization level, all the expressions are evaluated at compile-time.</strong></p>
+<h3 id="Common-Subexpression-Elimination"><a href="#Common-Subexpression-Elimination" class="headerlink" title="Common-Subexpression Elimination"></a>Common-Subexpression Elimination</h3><p><strong>The idea of common-subexpression elimination is to avoid computing the same expression multiple times by evaluating the expression once and storing the result for later use.</strong></p>
+<p><img src="CSE.png" alt="2023-01-05-mit6172-2"></p>
+<h3 id="Algebraic-Identities"><a href="#Algebraic-Identities" class="headerlink" title="Algebraic Identities"></a>Algebraic Identities</h3><p><strong>The idea of exploiting algebraic identities is to replace expensive algebraic expressions with algebraic equivalents that require less work.</strong></p>
+<h3 id="Short-Circuiting"><a href="#Short-Circuiting" class="headerlink" title="Short-Circuiting"></a>Short-Circuiting</h3><p><strong>When performing a series of tests, the idea of shortcircuiting is to stop evaluating as soon as you know the answer.</strong></p>
+<p>&amp;&amp; ||</p>
+<h3 id="Ordering-Tests"><a href="#Ordering-Tests" class="headerlink" title="Ordering Tests"></a>Ordering Tests</h3><p><strong>Consider code that executes a sequence of logical tests. The idea of ordering tests is to perform those that are more often “successful” — a particular alternative is selected by the test — before tests that are rarely successful. Similarly, inexpensive tests should precede expensive ones.</strong></p>
+<h3 id="Creating-a-Fast-Path"><a href="#Creating-a-Fast-Path" class="headerlink" title="Creating a Fast Path"></a>Creating a Fast Path</h3><h3 id="Combining-Tests"><a href="#Combining-Tests" class="headerlink" title="Combining Tests"></a>Combining Tests</h3><p><strong>The idea of combining tests is to replace a sequence of tests with one test or switch.</strong></p>
+<p>Switch</p>
+<h1 id="LOOPS"><a href="#LOOPS" class="headerlink" title="LOOPS"></a>LOOPS</h1><h3 id="Hoisting-循环不变代码外移"><a href="#Hoisting-循环不变代码外移" class="headerlink" title="Hoisting 循环不变代码外移"></a>Hoisting 循环不变代码外移</h3><p><strong>The goal of hoisting — also called loop-invariant code motion — is to avoid recomputing loop-invariant code each time through the body of a loop.</strong></p>
+<h3 id="Sentinels-简化循环边界条件"><a href="#Sentinels-简化循环边界条件" class="headerlink" title="Sentinels 简化循环边界条件"></a>Sentinels 简化循环边界条件</h3><p><strong>Sentinels are special dummy values placed in a data structure to simplify the logic of boundary conditions, and in particular, the handling of loop-exit tests.</strong></p>
+<h3 id="Loop-Unrolling-循环展开"><a href="#Loop-Unrolling-循环展开" class="headerlink" title="Loop Unrolling 循环展开"></a>Loop Unrolling 循环展开</h3><p><strong>Loop unrolling attempts to save work by combining several consecutive iterations of a loop into a single iteration, thereby reducing the total number of iterations of the loop and, consequently, the number of times that the instructions that control the loop must be executed.</strong></p>
+<ul>
+<li>Full loop unrolling: All iterations are unrolled.</li>
+<li>Partial loop unrolling: Several, but not all, of the iterations are unrolled.</li>
+</ul>
+<h3 id="Loop-Fusion-循环合并"><a href="#Loop-Fusion-循环合并" class="headerlink" title="Loop Fusion 循环合并"></a>Loop Fusion 循环合并</h3><p><strong>The idea of loop fusion — also called jamming — is to combine multiple loops over the same index range into a single loop body, thereby saving the overhead of loop control.</strong></p>
+<h3 id="Eliminating-Wasted-Iterations-消除浪费的迭代"><a href="#Eliminating-Wasted-Iterations-消除浪费的迭代" class="headerlink" title="Eliminating Wasted Iterations 消除浪费的迭代"></a>Eliminating Wasted Iterations 消除浪费的迭代</h3><p><strong>The idea of eliminating wasted iterations is to modify loop bounds to avoid executing loop iterations over essentially empty loop bodies.</strong></p>
+<h1 id="FUNCTIONS"><a href="#FUNCTIONS" class="headerlink" title="FUNCTIONS"></a>FUNCTIONS</h1><h3 id="Inlining"><a href="#Inlining" class="headerlink" title="Inlining"></a>Inlining</h3><p><strong>The idea of inlining is to avoid the overhead of a function call by replacing a call to the function with the body of the function itself.</strong></p>
+<ul>
+<li>直接写入函数</li>
+<li>static inline 内联函数</li>
+</ul>
+<h3 id="Tail-Recursion-Elimination-尾调用优化"><a href="#Tail-Recursion-Elimination-尾调用优化" class="headerlink" title="Tail-Recursion Elimination 尾调用优化"></a>Tail-Recursion Elimination 尾调用优化</h3><p><strong>The idea of tail-recursion elimination is to replace a recursive call that occurs as the last step of a function with a branch, saving function-call overhead.</strong></p>
+<h3 id="Coarsening-Recursion-粗化递归"><a href="#Coarsening-Recursion-粗化递归" class="headerlink" title="Coarsening Recursion 粗化递归"></a>Coarsening Recursion 粗化递归</h3><p><strong>The idea of coarsening recursion is to increase the size of the base case and handle it with more efficient code that avoids function-call overhead.</strong></p>
+<h4 id="Chapgpt-对粗化递归的一个例子"><a href="#Chapgpt-对粗化递归的一个例子" class="headerlink" title="Chapgpt 对粗化递归的一个例子"></a>Chapgpt 对粗化递归的一个例子</h4><p>粗化递归是一种优化技术，它通过减少递归调用的次数来提高运行速度。这通常是通过在每次递归调用之间执行更多的工作来实现的。</p>
+<p>例如，考虑一个用于计算阶乘的简单递归函数：<br>def factorial(n):<br>if n == 1:<br>return 1<br>else:<br>return n * factorial(n - 1)</p>
+<p>这个函数每次递归调用都会执行一次乘法运算。我们可以对它进行粗化递归优化，使其在每次递归调用之间执行多次乘法运算，从而减少递归调用的次数：</p>
+<pre><code>def factorial(n):
+result = 1
+while n &gt; 1:
+    result *= n
+    n -= 1
+return result
+</code></pre><p>这个优化后的函数只会执行一次递归调用，因此它的运行速度会快得多。</p>
+<p>当然，粗化递归并不是每个情况下都能使用的，它只适用于一些特定的问题。但是，当适用时，它可以显著提高运行速度。</p>
+<h1 id="Closing-Advice"><a href="#Closing-Advice" class="headerlink" title="Closing Advice"></a>Closing Advice</h1><ul>
+<li>Avoid premature optimization. First get correct working code. Then optimize, preserving correctness by regression testing.</li>
+<li>Reducing the work of a program does not necessarily decrease its running time, but it is a good heuristic.</li>
+<li>The compiler automates many low-level optimizations.</li>
+<li>To tell if the compiler is actually performing a particular optimization, look at the assembly code.</li>
+</ul>
+<h1 id="英语词汇笔记"><a href="#英语词汇笔记" class="headerlink" title="英语词汇笔记"></a>英语词汇笔记</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>单词</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>excuse</td>
+<td>执行（代码）</td>
+</tr>
+<tr>
+<td>Algorithm</td>
+<td>算法</td>
+</tr>
+<tr>
+<td>DATA STRUCTURES</td>
+<td>数据结构</td>
+</tr>
+<tr>
+<td>encode</td>
+<td>编码</td>
+</tr>
+<tr>
+<td>manipulate</td>
+<td>操作</td>
+</tr>
+<tr>
+<td>Augmentation</td>
+<td>增强</td>
+</tr>
+<tr>
+<td>Precomputation</td>
+<td>预计算</td>
+</tr>
+<tr>
+<td>Binomial coefficients</td>
+<td>二项分布 系数</td>
+</tr>
+<tr>
+<td>implemente</td>
+<td>执行（公式）</td>
+</tr>
+<tr>
+<td>formula</td>
+<td>公式</td>
+</tr>
+<tr>
+<td>perform</td>
+<td>执行（操作）</td>
+</tr>
+<tr>
+<td>compile</td>
+<td>编译</td>
+</tr>
+<tr>
+<td>metaprogramming</td>
+<td>元编程</td>
+</tr>
+<tr>
+<td>Sparsity</td>
+<td>稀疏的</td>
+</tr>
+<tr>
+<td>Constant Folding</td>
+<td>常数折叠（编译器优化的一种技术）</td>
+</tr>
+<tr>
+<td>Constant Propagation</td>
+<td>常数传播（编译器优化的一种技术）</td>
+</tr>
+<tr>
+<td>optimization</td>
+<td>最优化</td>
+</tr>
+<tr>
+<td>common-subexpression</td>
+<td>公因子表达式</td>
+</tr>
+<tr>
+<td>elimination</td>
+<td>剔除</td>
+</tr>
+<tr>
+<td>Algebraic Identities</td>
+<td>代数恒等式</td>
+</tr>
+<tr>
+<td>iteration</td>
+<td>迭代</td>
+</tr>
+<tr>
+<td>Recursion</td>
+<td>递归</td>
+</tr>
+<tr>
+<td>heuristic</td>
+<td>（计算机程序或教育中的）启发式方法</td>
+</tr>
+<tr>
+<td>assembly code</td>
+<td>汇编代码</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2023/01/08/mit6172-3/" data-toggle="tooltip" data-placement="top" title="Lecture-3-Bit-Hacks">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2023/01/05/mit6172-1/" data-toggle="tooltip" data-placement="top" title="Lecture 1 Introduction and Matrix Multiplication">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                <!-- tip start -->
+                
+
+                
+                <div class="comment_notes">
+                    <p>
+                        笔者能力有限，如有错漏，恳请读者谅解
+                    </p>
+                </div>
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <hr>
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC81NzkwNy8zNDM3MA==">
+                    <script type="text/javascript">
+                        (function (d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+                <!-- City版安装代码已完成 -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#DATA-STRUCTURES"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">DATA STRUCTURES</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Packing-and-Encoding"><span class="toc-nav-number">1.0.1.</span> <span class="toc-nav-text">Packing and Encoding</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Example"><span class="toc-nav-number">1.0.1.1.</span> <span class="toc-nav-text">Example</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Idea"><span class="toc-nav-number">1.0.1.2.</span> <span class="toc-nav-text">Idea</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Augmentation"><span class="toc-nav-number">1.0.2.</span> <span class="toc-nav-text">Augmentation</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Precomputation"><span class="toc-nav-number">1.0.3.</span> <span class="toc-nav-text">Precomputation</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Example-1"><span class="toc-nav-number">1.0.3.1.</span> <span class="toc-nav-text">Example</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Idea-1"><span class="toc-nav-number">1.0.3.2.</span> <span class="toc-nav-text">Idea</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Compile-Time-Initialization"><span class="toc-nav-number">1.0.4.</span> <span class="toc-nav-text">Compile-Time Initialization</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Idea-2"><span class="toc-nav-number">1.0.4.1.</span> <span class="toc-nav-text">Idea</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Caching"><span class="toc-nav-number">1.0.5.</span> <span class="toc-nav-text">Caching</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Sparsity"><span class="toc-nav-number">1.0.6.</span> <span class="toc-nav-text">Sparsity</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Example-2"><span class="toc-nav-number">1.0.6.1.</span> <span class="toc-nav-text">Example</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Idea-3"><span class="toc-nav-number">1.0.6.2.</span> <span class="toc-nav-text">Idea</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#LOGIC"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">LOGIC</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Constant-Folding-and-Propagation"><span class="toc-nav-number">2.0.1.</span> <span class="toc-nav-text">Constant Folding and Propagation</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Common-Subexpression-Elimination"><span class="toc-nav-number">2.0.2.</span> <span class="toc-nav-text">Common-Subexpression Elimination</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Algebraic-Identities"><span class="toc-nav-number">2.0.3.</span> <span class="toc-nav-text">Algebraic Identities</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Short-Circuiting"><span class="toc-nav-number">2.0.4.</span> <span class="toc-nav-text">Short-Circuiting</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Ordering-Tests"><span class="toc-nav-number">2.0.5.</span> <span class="toc-nav-text">Ordering Tests</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Creating-a-Fast-Path"><span class="toc-nav-number">2.0.6.</span> <span class="toc-nav-text">Creating a Fast Path</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Combining-Tests"><span class="toc-nav-number">2.0.7.</span> <span class="toc-nav-text">Combining Tests</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#LOOPS"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">LOOPS</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Hoisting-循环不变代码外移"><span class="toc-nav-number">3.0.1.</span> <span class="toc-nav-text">Hoisting 循环不变代码外移</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Sentinels-简化循环边界条件"><span class="toc-nav-number">3.0.2.</span> <span class="toc-nav-text">Sentinels 简化循环边界条件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Loop-Unrolling-循环展开"><span class="toc-nav-number">3.0.3.</span> <span class="toc-nav-text">Loop Unrolling 循环展开</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Loop-Fusion-循环合并"><span class="toc-nav-number">3.0.4.</span> <span class="toc-nav-text">Loop Fusion 循环合并</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Eliminating-Wasted-Iterations-消除浪费的迭代"><span class="toc-nav-number">3.0.5.</span> <span class="toc-nav-text">Eliminating Wasted Iterations 消除浪费的迭代</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#FUNCTIONS"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">FUNCTIONS</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Inlining"><span class="toc-nav-number">4.0.1.</span> <span class="toc-nav-text">Inlining</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Tail-Recursion-Elimination-尾调用优化"><span class="toc-nav-number">4.0.2.</span> <span class="toc-nav-text">Tail-Recursion Elimination 尾调用优化</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Coarsening-Recursion-粗化递归"><span class="toc-nav-number">4.0.3.</span> <span class="toc-nav-text">Coarsening Recursion 粗化递归</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Chapgpt-对粗化递归的一个例子"><span class="toc-nav-number">4.0.3.1.</span> <span class="toc-nav-text">Chapgpt 对粗化递归的一个例子</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Closing-Advice"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Closing Advice</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#英语词汇笔记"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">英语词汇笔记</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+
+<style  type="text/css">
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Julian Chan 2023 
+                    <br>
+                    Powered by 
+                    <a href="https://github.com/ChenJulian/ChenJulian.github.io.git" target="_blank" rel="noopener">
+                        <i>ChenJulian</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=ChenJulian&repo=ChenJulian.github.io&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://julianchan-cjl.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;😃&quot;,&quot;🥰&quot;,&quot;😍&quot;,&quot;😜&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

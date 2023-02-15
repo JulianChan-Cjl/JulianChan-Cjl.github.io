@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HPTE7VW4ZJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-HPTE7VW4ZJ');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="BUAA blog,hpc">
+    <meta name="keyword"  content="BUAA blog,hpc">
+    <link rel="shortcut icon" href="/img/good.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    <title>
+        
+          Lecture-3-Bit-Hacks - CHenJulian
+        
+    </title>
+
+    <link rel="canonical" href="https://julianchan-cjl.github.io/2023/01/08/mit6172-3/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../../../img/default.jpg')
+                /*post*/
+            
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Performance Engineering Of Software Systems" title="Performance Engineering Of Software Systems">Performance Engineering Of Software Systems</a>
+                            
+                        </div>
+                        <h1>Lecture-3-Bit-Hacks</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Julian Chan on
+                            2023-01-08
+                        </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">448</span> and
+                                Reading Time <span class="post-count">2</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
+                    </div>
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Julian&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Bit-Hacks"><a href="#Bit-Hacks" class="headerlink" title="Bit Hacks"></a>Bit Hacks</h1><h3 id="二进制表示"><a href="#二进制表示" class="headerlink" title="二进制表示"></a>二进制表示</h3><h3 id="反补码性质"><a href="#反补码性质" class="headerlink" title="反补码性质"></a>反补码性质</h3><h3 id="八进制、十六进制"><a href="#八进制、十六进制" class="headerlink" title="八进制、十六进制"></a>八进制、十六进制</h3><h3 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h3><h3 id="Set-the-kth-Bit"><a href="#Set-the-kth-Bit" class="headerlink" title="Set the kth Bit"></a>Set the k<sup>th</sup> Bit</h3><pre><code>y = x | (1 &lt;&lt; k);
+</code></pre><h3 id="Clear-the-kth-Bit"><a href="#Clear-the-kth-Bit" class="headerlink" title="Clear the kth Bit"></a>Clear the k<sup>th</sup> Bit</h3><pre><code>y = x &amp;(1 &lt;&lt; k);
+</code></pre><h3 id="Toggle-the-kth-Bit"><a href="#Toggle-the-kth-Bit" class="headerlink" title="Toggle the kth Bit"></a>Toggle the k<sup>th</sup> Bit</h3><pre><code>y = x ^ (1 &lt;&lt; k);
+</code></pre><h3 id="Extract-a-Bit-Field"><a href="#Extract-a-Bit-Field" class="headerlink" title="Extract a Bit Field"></a>Extract a Bit Field</h3><pre><code>(x % mask) &gt;&gt; shift;
+//mask 将待抽取的位 置一
+</code></pre><p><img src="extract1.png" alt="2023-01-05-mit6172-3"></p>
+<h3 id="Set-a-Bit-Field"><a href="#Set-a-Bit-Field" class="headerlink" title="Set a Bit Field"></a>Set a Bit Field</h3><pre><code>x = (x &amp; ~mask) | (y &lt;&lt; shift);
+//For safety’s sake:((y &lt;&lt; shift) &amp; mask)
+</code></pre><p><img src="set1.png" alt="2023-01-05-mit6172-3"></p>
+<h3 id="Swap"><a href="#Swap" class="headerlink" title="Swap"></a>Swap</h3><ul>
+<li><h4 id="Ordinary-Swap"><a href="#Ordinary-Swap" class="headerlink" title="Ordinary Swap"></a>Ordinary Swap</h4><pre><code>  t = x;
+  x = y;
+  y = t;
+</code></pre></li>
+<li><h4 id="No-Temp-Swap"><a href="#No-Temp-Swap" class="headerlink" title="No-Temp Swap"></a>No-Temp Swap</h4><pre><code>  x = x ^ y;
+  y = x ^ y;
+  x = x ^ y;
+</code></pre><p><img src="swap1.png" alt="2023-01-05-mit6172-3"></p>
+<p><strong>Why it works</strong> : XOR is its own inverse (x ^ y) ^ y = x</p>
+<p><strong>Performance</strong> : poor at exploiting instruction-level parallelism(slower than the original code)</p>
+</li>
+</ul>
+<h3 id="Minimum-of-Two-Integers"><a href="#Minimum-of-Two-Integers" class="headerlink" title="Minimum of Two Integers"></a>Minimum of Two Integers</h3><ul>
+<li><h4 id="Ordinary-Minimum"><a href="#Ordinary-Minimum" class="headerlink" title="Ordinary Minimum"></a>Ordinary Minimum</h4><pre><code>  r = (x &lt; y) ? x : y;
+</code></pre><p><strong>Performance</strong> : A mispredicted branch empties the processor pipeline<br><strong>Caveat</strong> : The compiler is usually smart enough to optimize away the unpredictable branch, but maybe not.</p>
+</li>
+<li><h4 id="No-Branch-Minimum"><a href="#No-Branch-Minimum" class="headerlink" title="No-Branch Minimum"></a>No-Branch Minimum</h4><pre><code>  r = y ^ ((x ^ y) &amp; -(x &lt; y));
+</code></pre><p><img src="min1.png" alt="2023-01-05-mit6172-3"></p>
+</li>
+</ul>
+<h3 id="Merging-Two-Sorted-Arrays"><a href="#Merging-Two-Sorted-Arrays" class="headerlink" title="Merging Two Sorted Arrays"></a>Merging Two Sorted Arrays</h3><p><img src="merge1.png" alt="2023-01-05-mit6172-3"></p>
+<p><strong>if branch is predictable</strong>: most of the time it retrun true, and once it return false you are never going to look at that again.<br>it is predictable = it can do prefetching efficiently</p>
+<h4 id="Modular-Additon"><a href="#Modular-Additon" class="headerlink" title="Modular Additon"></a>Modular Additon</h4><p><img src="Lecture-3-Bit-Hacks_30.png" alt="2023-01-05-mit6172-3"></p>
+<ul>
+<li>n 是 2 的幂</li>
+<li>z 可能小于 n</li>
+<li>同 minimum 方法</li>
+</ul>
+<h4 id="Round-up-to-a-Power-of-2"><a href="#Round-up-to-a-Power-of-2" class="headerlink" title="Round up to a Power of 2"></a>Round up to a Power of 2</h4><p>进一至 2 的幂次<br><img src="Lecture-3-Bit-Hacks_31.png" alt="2023-01-05-mit6172-3"></p>
+<p><img src="Lecture-3-Bit-Hacks_41.png" alt="2023-01-05-mit6172-3"></p>
+<ul>
+<li>注意向右填充所有位的方法</li>
+</ul>
+<ul>
+<li>这是一种处理边界条件的方法</li>
+</ul>
+<h4 id="Least-Significant-1"><a href="#Least-Significant-1" class="headerlink" title="Least-Significant 1"></a>Least-Significant 1</h4><p>最小的 1<br><img src="Lecture-3-Bit-Hacks_43.png" alt="2023-01-05-mit6172-3"></p>
+<h4 id="Log-Base-2-of-a-Power-of-2"><a href="#Log-Base-2-of-a-Power-of-2" class="headerlink" title="Log Base 2 of a Power of 2"></a>Log Base 2 of a Power of 2</h4><p>课堂表演魔术-利用德布鲁因序列的数学性质</p>
+<p><img src="Lecture-3-Bit-Hacks_44.png" alt="2023-01-05-mit6172-3"></p>
+<p><img src="Lecture-3-Bit-Hacks_46.png" alt="2023-01-05-mit6172-3"></p>
+<ul>
+<li>德布鲁因序列</li>
+</ul>
+<h4 id="n-Queens-Problem"><a href="#n-Queens-Problem" class="headerlink" title="n Queens Problem"></a>n Queens Problem</h4><p><img src="Lecture-3-Bit-Hacks_47.png" alt="2023-01-05-mit6172-3"></p>
+<ul>
+<li>每一行从左往右试 符合就下一行。若都不符合就上一行继续往后试</li>
+</ul>
+<p><img src="Lecture-3-Bit-Hacks_58.png" alt="2023-01-05-mit6172-3"></p>
+<ul>
+<li>三个向量 分别对应下文三图</li>
+</ul>
+<p><img src="Lecture-3-Bit-Hacks_59.png" alt="2023-01-05-mit6172-3"></p>
+<p><img src="Lecture-3-Bit-Hacks_60.png" alt="2023-01-05-mit6172-3"></p>
+<p><img src="Lecture-3-Bit-Hacks_61.png" alt="2023-01-05-mit6172-3"></p>
+<h4 id="Population-Count"><a href="#Population-Count" class="headerlink" title="Population Count"></a>Population Count</h4><p><img src="Lecture-3-Bit-Hacks_62.png" alt="2023-01-05-mit6172-3"></p>
+<ul>
+<li>留意清除最低位的 1 的使用</li>
+<li>数字小的时候才好用</li>
+</ul>
+<p><img src="Lecture-3-Bit-Hacks_63.png" alt="2023-01-05-mit6172-3"></p>
+<ul>
+<li>内存操作的成本是性能的主要瓶颈</li>
+</ul>
+<p><img src="Lecture-3-Bit-Hacks_64.png" alt="2023-01-05-mit6172-3"></p>
+<ul>
+<li>这里加法是真加法 不是或</li>
+</ul>
+<p><img src="Lecture-3-Bit-Hacks_65.png" alt="2023-01-05-mit6172-3"></p>
+<p><img src="Lecture-3-Bit-Hacks_66.png" alt="2023-01-05-mit6172-3"></p>
+<p><img src="Lecture-3-Bit-Hacks_67.png" alt="2023-01-05-mit6172-3"></p>
+<ul>
+<li>popcount 指令比自己编码快很多</li>
+</ul>
+<h1 id="英语词汇笔记"><a href="#英语词汇笔记" class="headerlink" title="英语词汇笔记"></a>英语词汇笔记</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>单词</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>binary</td>
+<td>二进制</td>
+</tr>
+<tr>
+<td>prefix</td>
+<td>前置</td>
+</tr>
+<tr>
+<td>toggle</td>
+<td>切换</td>
+</tr>
+<tr>
+<td>prefetching</td>
+<td>预取</td>
+</tr>
+<tr>
+<td>Modular</td>
+<td>模</td>
+</tr>
+<tr>
+<td>boundary case</td>
+<td>边界条件</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2023/01/11/scoop/" data-toggle="tooltip" data-placement="top" title="Scoop语法速查">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2023/01/07/mit6172-2/" data-toggle="tooltip" data-placement="top" title="Lecture 2 Bentley Rules for Optimizing Work">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                <!-- tip start -->
+                
+
+                
+                <div class="comment_notes">
+                    <p>
+                        笔者能力有限，如有错漏，恳请读者谅解
+                    </p>
+                </div>
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <hr>
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC81NzkwNy8zNDM3MA==">
+                    <script type="text/javascript">
+                        (function (d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+                <!-- City版安装代码已完成 -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Bit-Hacks"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Bit Hacks</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#二进制表示"><span class="toc-nav-number">1.0.1.</span> <span class="toc-nav-text">二进制表示</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#反补码性质"><span class="toc-nav-number">1.0.2.</span> <span class="toc-nav-text">反补码性质</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#八进制、十六进制"><span class="toc-nav-number">1.0.3.</span> <span class="toc-nav-text">八进制、十六进制</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#位运算符"><span class="toc-nav-number">1.0.4.</span> <span class="toc-nav-text">位运算符</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Set-the-kth-Bit"><span class="toc-nav-number">1.0.5.</span> <span class="toc-nav-text">Set the kth Bit</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Clear-the-kth-Bit"><span class="toc-nav-number">1.0.6.</span> <span class="toc-nav-text">Clear the kth Bit</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Toggle-the-kth-Bit"><span class="toc-nav-number">1.0.7.</span> <span class="toc-nav-text">Toggle the kth Bit</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Extract-a-Bit-Field"><span class="toc-nav-number">1.0.8.</span> <span class="toc-nav-text">Extract a Bit Field</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Set-a-Bit-Field"><span class="toc-nav-number">1.0.9.</span> <span class="toc-nav-text">Set a Bit Field</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Swap"><span class="toc-nav-number">1.0.10.</span> <span class="toc-nav-text">Swap</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Ordinary-Swap"><span class="toc-nav-number">1.0.10.1.</span> <span class="toc-nav-text">Ordinary Swap</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#No-Temp-Swap"><span class="toc-nav-number">1.0.10.2.</span> <span class="toc-nav-text">No-Temp Swap</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Minimum-of-Two-Integers"><span class="toc-nav-number">1.0.11.</span> <span class="toc-nav-text">Minimum of Two Integers</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Ordinary-Minimum"><span class="toc-nav-number">1.0.11.1.</span> <span class="toc-nav-text">Ordinary Minimum</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#No-Branch-Minimum"><span class="toc-nav-number">1.0.11.2.</span> <span class="toc-nav-text">No-Branch Minimum</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Merging-Two-Sorted-Arrays"><span class="toc-nav-number">1.0.12.</span> <span class="toc-nav-text">Merging Two Sorted Arrays</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Modular-Additon"><span class="toc-nav-number">1.0.12.1.</span> <span class="toc-nav-text">Modular Additon</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Round-up-to-a-Power-of-2"><span class="toc-nav-number">1.0.12.2.</span> <span class="toc-nav-text">Round up to a Power of 2</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Least-Significant-1"><span class="toc-nav-number">1.0.12.3.</span> <span class="toc-nav-text">Least-Significant 1</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Log-Base-2-of-a-Power-of-2"><span class="toc-nav-number">1.0.12.4.</span> <span class="toc-nav-text">Log Base 2 of a Power of 2</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#n-Queens-Problem"><span class="toc-nav-number">1.0.12.5.</span> <span class="toc-nav-text">n Queens Problem</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Population-Count"><span class="toc-nav-number">1.0.12.6.</span> <span class="toc-nav-text">Population Count</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#英语词汇笔记"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">英语词汇笔记</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+
+<style  type="text/css">
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Julian Chan 2023 
+                    <br>
+                    Powered by 
+                    <a href="https://github.com/ChenJulian/ChenJulian.github.io.git" target="_blank" rel="noopener">
+                        <i>ChenJulian</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=ChenJulian&repo=ChenJulian.github.io&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://julianchan-cjl.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;😃&quot;,&quot;🥰&quot;,&quot;😍&quot;,&quot;😜&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

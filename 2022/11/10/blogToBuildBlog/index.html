@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HPTE7VW4ZJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-HPTE7VW4ZJ');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="BUAA blog,hpc">
+    <meta name="keyword"  content="BUAA blog,hpc">
+    <link rel="shortcut icon" href="/img/good.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    <title>
+        
+          搭建snail主题的github博客踩坑历程回顾及建议 - CHenJulian
+        
+    </title>
+
+    <link rel="canonical" href="https://julianchan-cjl.github.io/2022/11/10/blogToBuildBlog/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../../../img/default.jpg')
+                /*post*/
+            
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#博客搭建" title="博客搭建">博客搭建</a>
+                            
+                        </div>
+                        <h1>搭建snail主题的github博客踩坑历程回顾及建议</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Julian Chan on
+                            2022-11-10
+                        </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">2k</span> and
+                                Reading Time <span class="post-count">7</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
+                    </div>
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Julian&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>搭建本博客时主要参考了 6 系师兄的<a href="https://saltyfishyjk.github.io/2022/01/28/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%9B%9E%E9%A1%BE%E6%A6%82%E8%A7%88/" target="_blank" rel="noopener"><strong>搭建教程指路</strong></a><br>本文主要是对师兄的教程作出了一些个人补充<br>（笔者当时理解不透弄错而走了很久的弯路，想要补充分享更傻瓜式的搭建过程）<br>同时，笔者能力有限，本文还有许多不足，希望大家看到后能够指导一下笔者。</p>
+<pre><code>注: 本文不涉及hexo、npm、git等基础知识的介绍，谷歌或百度自主搜索关键词即可得到相关信息
+
+    通过本文
+    你能得到一些上述博客未曾提到的细节问题和一个博客搭建历程建议
+    但无法实现博客更多细节的美化和获得相关知识的科普
+
+    假如搭建过程遇到了其他难题，推荐学会利用谷歌搜索
+</code></pre><h1 id="博客搭建顺序建议"><a href="#博客搭建顺序建议" class="headerlink" title="博客搭建顺序建议"></a>博客搭建顺序建议</h1><h2 id="对于尝试建立过-github-博客且已建立-github-io-库的读者"><a href="#对于尝试建立过-github-博客且已建立-github-io-库的读者" class="headerlink" title="对于尝试建立过 github 博客且已建立 github.io 库的读者"></a>对于尝试建立过 github 博客且已建立 github.io 库的读者</h2><ul>
+<li>在<strong>对应的 github.io 库</strong>中的<strong>settings</strong>中将<strong>branches 名称</strong>从 main 修改成 master</li>
+<li>阅读通用建议</li>
+</ul>
+<h2 id="对于未建立过-github-库，没有尝试过建立博客的读者"><a href="#对于未建立过-github-库，没有尝试过建立博客的读者" class="headerlink" title="对于未建立过 github 库，没有尝试过建立博客的读者"></a>对于未建立过 github 库，没有尝试过建立博客的读者</h2><ul>
+<li>阅读<a href="https://segmentfault.com/a/1190000017986794" target="_blank" rel="noopener"><strong>hexo+Github Pages 搭建教程</strong></a>并完成所有步骤<br>注：该教程中的 hexo init myBlog 和 cd myBlog 操作笔者是用 hexo init blog 和 cd blog 实现的。（只是改了个名字）</li>
+<li>阅读通用建议</li>
+</ul>
+<h2 id="通用建议"><a href="#通用建议" class="headerlink" title="通用建议"></a>通用建议</h2><p>假如你不想遇到奇奇怪怪的 error 提醒，小白最好先不要进行其他配置文件的修改。。</p>
+<h4 id="1、按照snail-主题官方仓库的-README-教程进行到到-Configuration"><a href="#1、按照snail-主题官方仓库的-README-教程进行到到-Configuration" class="headerlink" title="1、按照snail 主题官方仓库的 README 教程进行到到 Configuration"></a>1、按照<a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">snail 主题官方仓库</a>的 README 教程进行到到 Configuration</h4><pre><code>教程前面提到的的建立hexo init blog和cd blog大家已经实现了！只需要在blog文件夹中右键 git bash here就可以了
+</code></pre><h4 id="2、跳到修改本地-config-中-Deployment-的配置信息"><a href="#2、跳到修改本地-config-中-Deployment-的配置信息" class="headerlink" title="2、跳到修改本地_config 中 Deployment 的配置信息"></a>2、跳到修改本地_config 中 Deployment 的配置信息</h4><p>原配置信息</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">github.repository.address</span></span><br><span class="line">    <span class="string">coding:coding.repository.address</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+<p>配置后信息</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:xxx/xxx.github.io.git</span></span><br><span class="line">    <span class="attr">coding:</span> <span class="string">https://e.coding.net/xxxxx</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+<p>请注意</p>
+<ul>
+<li>这里 coding 是指腾讯的<a href="https://coding.net/" target="_blank" rel="noopener">CODING DevOps</a><br>需要读者在免费注册使用后在项目中创建 DevOps 项目并进行选择克隆 https 复制地址信息</li>
+<li><p>我的 github 库地址是利用 ssh 克隆的代码库仓库（电脑之前配置了 github 的 ssh）<br>但我的 coding 库地址是利用 https 克隆的代码库仓库<br>（按照上述步骤搭建的你理应也是这样）</p>
+<pre><code>    这里涉及到电脑设置多个ssh key的问题
+    若读者感兴趣可以谷歌搜索自行了解
+    笔者为了减少工作量并没有做这一步
+    这学期也不再需要换多个ssh了，下学期可能会进行研究并写分享博客
+
+    假如你使用https克隆，那么在hexo d一步中将需要输入账号密码。
+    假如利用ssh密钥克隆，那么要提前在库中实现ssh key绑定
+</code></pre></li>
+</ul>
+<h4 id="3、在-blog-中-git-bash-here-再利用指令完成博客的搭建与上传"><a href="#3、在-blog-中-git-bash-here-再利用指令完成博客的搭建与上传" class="headerlink" title="3、在 blog 中 git bash here 再利用指令完成博客的搭建与上传"></a>3、在 blog 中 git bash here 再利用指令完成博客的搭建与上传</h4><p>主要利用以下三条指令（上附教程中有讲到是干什么的）</p>
+<pre><code>hexo g
+hexo s
+hexo d
+</code></pre><p>至于下面这种上传方式，我一般在不打算浏览本地网站的时候用</p>
+<pre><code>hexo clean
+hexo g -d
+</code></pre><p>注意：这里有的同学会出现这种情况</p>
+<p><img src="error1.png" alt="2022-11-10-blogToBuildBlog"></p>
+<p>这里大家要注意这种情况我们看的不是 Error：Spawn Failed 这一行，而是往上看可以看到一行 remote：Repository not found<br>这里说了我们找不到这个仓库，这种问题的出现，很大可能是因为有的同学的 ssh 在部分课程修改后没有改回来。重新设置一遍 github 的 ssh 就能解决这个问题！</p>
+<h4 id="阅读到这里，你就可以在自己的-Github-Pages-相关网址中看到属于自己的博客网站啦！"><a href="#阅读到这里，你就可以在自己的-Github-Pages-相关网址中看到属于自己的博客网站啦！" class="headerlink" title="阅读到这里，你就可以在自己的 Github Pages 相关网址中看到属于自己的博客网站啦！"></a>阅读到这里，你就可以在自己的 Github Pages 相关网址中看到属于自己的博客网站啦！</h4><p>辣么，快去试试看吧！</p>
+<h1 id="笔者在博客美化中做出的修改建议"><a href="#笔者在博客美化中做出的修改建议" class="headerlink" title="笔者在博客美化中做出的修改建议"></a>笔者在博客美化中做出的修改建议</h1><h2 id="修改前的建议"><a href="#修改前的建议" class="headerlink" title="修改前的建议"></a>修改前的建议</h2><ul>
+<li><p>备份 blog 文件夹</p>
+<p>可以选择 git 或者本地备份<br>反正一定要备份！！！（一个下午和一个晚上血和泪的教训）</p>
+</li>
+</ul>
+<h2 id="笔者做出的相关修改"><a href="#笔者做出的相关修改" class="headerlink" title="笔者做出的相关修改"></a>笔者做出的相关修改</h2><p>这里仅涉及官方仓库教程中没提到或者不容易找到的<br>且笔者修改过的</p>
+<h4 id="blog-config-yml"><a href="#blog-config-yml" class="headerlink" title="blog_config.yml"></a>blog_config.yml</h4><ul>
+<li>大部分内容<br>根据官方仓库教程修改就可以，官方仓库没提到的大部分都是其他配置信息，需要读者额外了解<br>笔者主要将不需要的内容注释掉或修改成 enable: false<br>这里每个人审美不同，可以自由发挥<br>通过单词词义理解一下或者尝试一下不会遇到太大问题，出现问题恢复原来的就行了</li>
+<li>URL<br>请不要修改！！！<br>hexo 官方教程中是要修改这里的。。但是小白别碰就行了。<br>笔者目前也没有弄懂原理。但是不修改就不会出现问题，修改后会报错。这里卡了笔者很久</li>
+<li>comment（评论系统）<br>按<a href="https://www.cnblogs.com/Johnson-lin/p/11386877.html" target="_blank" rel="noopener">该教程</a>走就好了<br>但是我报错咧 不清楚。</li>
+</ul>
+<h4 id="blog-source"><a href="#blog-source" class="headerlink" title="blog\source"></a>blog\source</h4><pre><code>这里可以修改导航页（也就是右上角），点进去文件夹修改index就会知道怎么修改了。不需要的就选择删除。
+</code></pre><h4 id="blog-themes-snail-layout-partial-footer-ejs"><a href="#blog-themes-snail-layout-partial-footer-ejs" class="headerlink" title="blog\themes\snail\layout_partial\footer.ejs"></a>blog\themes\snail\layout_partial\footer.ejs</h4><pre><code>在这里可以将页面低端的powered by内容和star的链接改成自己的github账号信息
+但笔者由于喜欢更简洁的页面，关掉了底部的转发功能。该文件中其他信息笔者并没有修改。若有需要，请读者自行修改地址、名称等信息。
+</code></pre><p>修改片段前</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"copyright text-muted"</span>&gt;</span></span><br><span class="line">  Copyright <span class="symbol">&amp;copy;</span> <span class="tag">&lt;<span class="name">%=</span> <span class="attr">config.author</span> %&gt;</span> <span class="tag">&lt;<span class="name">%=</span> <span class="attr">new</span> <span class="attr">Date</span>()<span class="attr">.getFullYear</span>() %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  Powered by</span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://github.com/dusign/hexo-theme-snail"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i</span>&gt;</span>hexo-theme-snail<span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  |</span><br><span class="line">  <span class="tag">&lt;<span class="name">iframe</span></span></span><br><span class="line"><span class="tag">    <span class="attr">name</span>=<span class="string">"star"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">style</span>=<span class="string">"margin-left: 2px; margin-bottom:-5px;"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">frameborder</span>=<span class="string">"0"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">scrolling</span>=<span class="string">"0"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">width</span>=<span class="string">"100px"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">height</span>=<span class="string">"20px"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">src</span>=<span class="string">"https://ghbtns.com/github-btn.html?user=dusign&amp;repo=hexo-theme-snail&amp;type=star&amp;count=true"</span></span></span><br><span class="line"><span class="tag">  &gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>修改片段后（读者只需自行比对便可理解）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"copyright text-muted"</span>&gt;</span></span><br><span class="line">  Copyright <span class="symbol">&amp;copy;</span> <span class="tag">&lt;<span class="name">%=</span> <span class="attr">config.author</span> %&gt;</span> <span class="tag">&lt;<span class="name">%=</span> <span class="attr">new</span> <span class="attr">Date</span>()<span class="attr">.getFullYear</span>() %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  Powered by</span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://github.com/==ChenJulian==/ChenJulian.github.io.git"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i</span>&gt;</span>ChenJulian<span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  |</span><br><span class="line">  <span class="tag">&lt;<span class="name">iframe</span></span></span><br><span class="line"><span class="tag">    <span class="attr">name</span>=<span class="string">"star"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">style</span>=<span class="string">"margin-left: 2px; margin-bottom:-5px;"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">frameborder</span>=<span class="string">"0"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">scrolling</span>=<span class="string">"0"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">width</span>=<span class="string">"100px"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">height</span>=<span class="string">"20px"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">src</span>=<span class="string">"https://ghbtns.com/github-btn.html?user=ChenJulian&amp;repo=ChenJulian.github.io&amp;type=star&amp;count=true"</span></span></span><br><span class="line"><span class="tag">  &gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="04-结语"><a href="#04-结语" class="headerlink" title="04 结语"></a>04 结语</h1><ul>
+<li>由于笔者知识量有限，上文必定有不够完善的地方，希望大家理解。假如有所错漏，希望大家联系我修改，以免误导他人。</li>
+<li><p>且笔者正在被流水线 CPU CPU（CPU 完了，来补充博客了！！）<br>目前得先安排时间去完成流水线 CPU 的代码编写和调试，博客内容的更多修改和搜寻上文笔者不懂的知识点等计划都得搁浅了。</p>
+<blockquote>
+<p>包括但不限于：</p>
+<ul>
+<li>博客评论区的完善和探索(√) <a href="https://blog.51cto.com/xdr630/2797535" target="_blank" rel="noopener">教程指路</a></li>
+</ul>
+</blockquote>
+<pre><code>gitment报错弄不好，改用livere了。还可以微信登录。注意这里的网址应该是livere.com。他那个me后缀的我打不开。
+</code></pre><blockquote>
+<ul>
+<li>博客提交百度和谷歌统计(√) <a href="https://cloud.tencent.com/developer/article/1953292" target="_blank" rel="noopener">教程指路</a>、<a href="https://blog.csdn.net/tzhuwb/article/details/125477001" target="_blank" rel="noopener">教程指路 2</a>、<a href="https://weilining.github.io/1.html" target="_blank" rel="noopener">教程指路 3</a></li>
+</ul>
+</blockquote>
+<pre><code>注意这里不能用UA码了，准备停用了，请在谷歌分析中采取手动添加的方法。在head那里添加即可。
+以及在指路3会发现挺多东西需要改的，不然sitemap生成不对。
+</code></pre><blockquote>
+<ul>
+<li>博客文章右边目录的错误显示(√)</li>
+</ul>
+</blockquote>
+<pre><code>正确使用###，本文章错的地方没改
+</code></pre><p>本文章在笔者后续了解后会持续更新内容！</p>
+</li>
+</ul>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2023/01/05/mit6172-1/" data-toggle="tooltip" data-placement="top" title="Lecture 1 Introduction and Matrix Multiplication">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                <!-- tip start -->
+                
+
+                
+                <div class="comment_notes">
+                    <p>
+                        笔者能力有限，如有错漏，恳请读者谅解
+                    </p>
+                </div>
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <hr>
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC81NzkwNy8zNDM3MA==">
+                    <script type="text/javascript">
+                        (function (d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+                <!-- City版安装代码已完成 -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#前言"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#博客搭建顺序建议"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">博客搭建顺序建议</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#对于尝试建立过-github-博客且已建立-github-io-库的读者"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">对于尝试建立过 github 博客且已建立 github.io 库的读者</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#对于未建立过-github-库，没有尝试过建立博客的读者"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">对于未建立过 github 库，没有尝试过建立博客的读者</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#通用建议"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">通用建议</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1、按照snail-主题官方仓库的-README-教程进行到到-Configuration"><span class="toc-nav-number">2.3.0.1.</span> <span class="toc-nav-text">1、按照snail 主题官方仓库的 README 教程进行到到 Configuration</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2、跳到修改本地-config-中-Deployment-的配置信息"><span class="toc-nav-number">2.3.0.2.</span> <span class="toc-nav-text">2、跳到修改本地_config 中 Deployment 的配置信息</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3、在-blog-中-git-bash-here-再利用指令完成博客的搭建与上传"><span class="toc-nav-number">2.3.0.3.</span> <span class="toc-nav-text">3、在 blog 中 git bash here 再利用指令完成博客的搭建与上传</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#阅读到这里，你就可以在自己的-Github-Pages-相关网址中看到属于自己的博客网站啦！"><span class="toc-nav-number">2.3.0.4.</span> <span class="toc-nav-text">阅读到这里，你就可以在自己的 Github Pages 相关网址中看到属于自己的博客网站啦！</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#笔者在博客美化中做出的修改建议"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">笔者在博客美化中做出的修改建议</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#修改前的建议"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">修改前的建议</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#笔者做出的相关修改"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">笔者做出的相关修改</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#blog-config-yml"><span class="toc-nav-number">3.2.0.1.</span> <span class="toc-nav-text">blog_config.yml</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#blog-source"><span class="toc-nav-number">3.2.0.2.</span> <span class="toc-nav-text">blog\source</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#blog-themes-snail-layout-partial-footer-ejs"><span class="toc-nav-number">3.2.0.3.</span> <span class="toc-nav-text">blog\themes\snail\layout_partial\footer.ejs</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#04-结语"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">04 结语</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+
+<style  type="text/css">
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Julian Chan 2023 
+                    <br>
+                    Powered by 
+                    <a href="https://github.com/ChenJulian/ChenJulian.github.io.git" target="_blank" rel="noopener">
+                        <i>ChenJulian</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=ChenJulian&repo=ChenJulian.github.io&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://julianchan-cjl.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;😃&quot;,&quot;🥰&quot;,&quot;😍&quot;,&quot;😜&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>
