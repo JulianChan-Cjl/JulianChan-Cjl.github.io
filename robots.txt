@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /home/
+Allow: /archives/
+Allow: /tags/
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+
+Sitemap: https://chenjulian.github.io/sitemap.xml
+Sitemap: https://chenjulian.github.io/baidusitemap.xml
