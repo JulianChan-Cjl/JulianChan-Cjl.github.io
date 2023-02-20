@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HPTE7VW4ZJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-HPTE7VW4ZJ');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="BUAA blog,hpc">
+    <meta name="keyword"  content="BUAA blog,hpc">
+    <link rel="shortcut icon" href="/img/good.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    <title>
+        
+          Linux基础自查 - Julian Chan
+        
+    </title>
+
+    <link rel="canonical" href="https://julianchan-cjl.github.io/2023/02/20/linux-1/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../../../img/default.jpg')
+                /*post*/
+            
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
+                            
+                        </div>
+                        <h1>Linux基础自查</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Julian Chan on
+                            2023-02-20
+                        </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">2.9k</span> and
+                                Reading Time <span class="post-count">10</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
+                    </div>
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Julian&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Linux-基础操作命令"><a href="#Linux-基础操作命令" class="headerlink" title="Linux 基础操作命令"></a>Linux 基础操作命令</h1><h2 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">man</span><br><span class="line">用法：man [选项] 命令</span><br><span class="line">作用：查看命令的详细说明手册。</span><br></pre></td></tr></table></figure>
+<h2 id="目录操作"><a href="#目录操作" class="headerlink" title="目录操作"></a>目录操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd</span><br><span class="line">用法：cd [选项] 目录</span><br><span class="line">作用：切换到某个目录（Change Directory）。</span><br></pre></td></tr></table></figure>
+<p>目录访问 cd &lt;&gt;</p>
+<ul>
+<li>~ 当前用户主目录。对于一般用户，主目录是 /home/用户名，对于 root 用户，主目录则是 /root。</li>
+<li>.. 上一级目录</li>
+<li>. 代表切换到当前所在的目录</li>
+<li>- 上一次访问的目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ls</span><br><span class="line">用法：ls [选项] [目录]</span><br><span class="line">作用：列出目录中的文件。若参数“目录”未给出，则列出当前目录中的文件。</span><br><span class="line">选项（常用）：</span><br><span class="line">-a              显示隐藏的文件</span><br><span class="line">-l              每行只列出一个文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir</span><br><span class="line">用法：mkdir [选项] 目录</span><br><span class="line">作用：创建一个新目录。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pwd</span><br><span class="line">用法：pwd [选项]</span><br><span class="line">作用：输出当前目录的绝对路径。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rmdir</span><br><span class="line">用法：rmdir [选项] 目录</span><br><span class="line">作用：删除一个空的目录。请注意，只有空的目录才能被删除。</span><br></pre></td></tr></table></figure>
+<h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch</span><br><span class="line">用法：touch [选项] 文件名</span><br><span class="line">作用：当文件存在时更新文件的时间戳，当文件不存在时创建新文件。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rm</span><br><span class="line">用法：rm [选项] 文件</span><br><span class="line">作用：删除文件。</span><br><span class="line">选项（常用）：</span><br><span class="line">-r              递归删除目录及其内容，删除非空目录必须有此选项，否则无法删除。</span><br><span class="line">-f              强制删除，不提示用户确认，忽略不存在的目录。</span><br><span class="line">-i              逐一提示用户确认每个将要被删除的文件。</span><br><span class="line">Tips：rm -rf 是十分危险的命令（尤其在 root 用户下），非必要不使用 rm -rf 命令，在执行之前需要再三确认。root 用户具有至高无上的权限，在该用户下执行 rm -rf &#x2F; 可以删除一切文件，包括 Linux 本身，从而导致系统被毁灭。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp</span><br><span class="line">用法：cp [选项] 源文件 目标路径</span><br><span class="line">作用：将源文件（也可以是目录）复制为目标路径对应的文件（如果目标路径是文件）或复制到目标路径（如果目标路径是目录）。</span><br><span class="line">选项（常用）：</span><br><span class="line">-r              递归复制目录及其子目录内的所有内容。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mv</span><br><span class="line">用法：mv [选项] 源文件 目标路径</span><br><span class="line">作用：将源文件（也可以是目录）移动为目标路径对应的文件（如果目标路径是文件）或移动到目标路径（如果目标路径是目录）。</span><br><span class="line">选项（常用）：</span><br><span class="line">-r              递归移动目录及其子目录内的所有内容。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">diff</span><br><span class="line">用法：diff [选项] 文件1 文件2</span><br><span class="line">选项（常用）：</span><br><span class="line">-b              不检查空白字符的不同。</span><br><span class="line">-B              不检查空行。</span><br><span class="line">-q              仅显示有无差异，不显示详细信息。</span><br></pre></td></tr></table></figure>
+<h2 id="查找操作"><a href="#查找操作" class="headerlink" title="查找操作"></a>查找操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">find</span><br><span class="line">用法：find [路径] &lt;选项&gt;</span><br><span class="line">作用：在给定路径下递归地查找文件，输出符合要求的文件的路径。如果没有给定路径，则在当前目录下查找。</span><br><span class="line">选项（常用）：</span><br><span class="line">-name &lt;文件名&gt;             指定需要查找的文件名。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">grep</span><br><span class="line">用法：grep [选项] PATTERN FILE</span><br><span class="line">（PATTERN是匹配字符串，FILE是文件或目录的路径）</span><br><span class="line">作用：输出匹配PATTERN的文件和相关的行。</span><br><span class="line">选项（常用）：</span><br><span class="line">-a              不忽略二进制数据进行搜索。</span><br><span class="line">-i              忽略大小写差异。</span><br><span class="line">-r              从目录中递归查找。</span><br><span class="line">-n              显示行号。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find 是根据文件的属性（文件名、修改日期等）查找文件，而 grep 则是匹配文件内的内容查找文件和文件中的匹配位置。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tree</span><br><span class="line">用法: tree [选项] [目录名]</span><br><span class="line">作用：输出目录下的文件数</span><br><span class="line">选项(常用)：</span><br><span class="line">-a              列出全部文件（包含隐藏文件）。</span><br><span class="line">-d              只列出目录。</span><br></pre></td></tr></table></figure>
+<h2 id="读取操作"><a href="#读取操作" class="headerlink" title="读取操作"></a>读取操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat 命令将文件内容输出到标准输出</span><br><span class="line">grep 命令支持从标准输入读取文本</span><br><span class="line">grep &quot;xx&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><ul>
+<li>Ctrl+C 终止当前程序的执行。</li>
+<li>Ctrl+Z 挂起当前程序。暂停程序，放到后台。Ctrl+Z 挂起程序后会显示该程序挂起编号，若想要恢复该程序可以使用 fg [job_spec]即可，job_spec 即为挂起编号，不输入时默认为最近挂起进程。</li>
+<li>Ctrl+D 终止输入（若正在使用 Shell，则退出当前 Shell）。在标准输入中输入 Ctrl+D 也意味着输入了一个 EOF。</li>
+<li>Ctrl+L 清屏。相当于命令 clear</li>
+<li>Ctrl+S 在终端中的作用是暂停该终端。有的同学在进行编辑的时候会误触此组合键导致终端“卡死”，此时使用 Ctrl+Q 组合键即可让终端继续运行。</li>
+</ul>
+<h1 id="Vim"><a href="#Vim" class="headerlink" title="Vim"></a>Vim</h1><p><a href="https://coolshell.cn/articles/5426.html" target="_blank" rel="noopener">《简明 Vim 练级攻略》</a></p>
+<h1 id="GCC-GNU-Compiler-Collection"><a href="#GCC-GNU-Compiler-Collection" class="headerlink" title="GCC(GNU Compiler Collection)"></a>GCC(GNU Compiler Collection)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gcc</span><br><span class="line">用法：gcc [选项] 源代码文件</span><br><span class="line">作用：编译源代码文件。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;</span><br><span class="line">Tips：.&#x2F; 表示被执行的文件在当前目录，Linux 会在当前目录中查找可执行文件。如果不加 .&#x2F;，那么 Linux 就会在“系统 PATH”中寻找。</span><br></pre></td></tr></table></figure>
+<h1 id="Make-amp-Makefile"><a href="#Make-amp-Makefile" class="headerlink" title="Make &amp; Makefile"></a>Make &amp; Makefile</h1><ul>
+<li><a href="https://www.ruanyifeng.com/blog/2015/02/make.html" target="_blank" rel="noopener">阮一峰的网络日志 - Make 命令教程</a>，是 make 工具的初学者教程。</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html" target="_blank" rel="noopener">GNU make 手册</a>，列出了 make 的完整功能，可供研究和参考</li>
+</ul>
+<h1 id="Ctags"><a href="#Ctags" class="headerlink" title="Ctags"></a>Ctags</h1><p>ctags 是一个方便代码阅读的工具。利用 ctags，我们可以在 Vim 下进行更便捷的开发。</p>
+<p>执行命令 ctags -R *，就会发现在该目录下出现了新的文件 tags ——这是 ctags 为我们创建的符号名索引文件。此时我们就能使用 ctags 的功能了。</p>
+<p>使用 Vim 打开 .c 文件，将光标移动到 a 或 b 上，按下 Ctrl+]，就可以跳转到结构体中 a 或 b 的定义处。再按下 Ctrl+O 就可以返回跳转前的位置。</p>
+<h1 id="Tmux"><a href="#Tmux" class="headerlink" title="Tmux"></a>Tmux</h1><p><a href="https://www.ruanyifeng.com/blog/2019/10/tmux.html" target="_blank" rel="noopener">Tmux 使用教程</a><br>在 Shell 下直接输入命令 tmux，可以看到终端底部出现一行绿色，这时就已经进入了 tmux 的新会话。tmux 的操作由一系列快捷键组成，下面对重要的快捷键进行介绍。</p>
+<ul>
+<li>Ctrl+B Shift+Num 5（同时按下 Ctrl 和 B，然后松开这两个键，紧接着立刻输入“%”，下面同理），将窗口左右分屏。</li>
+<li>Ctrl+B Shift+’ ，将窗口上下分屏。</li>
+<li>重复以上两个快捷键，可以将目前活动的窗格继续分屏。</li>
+<li>Ctrl+B Up / Down / Left / Right 根据按键方向切换到某个窗格。</li>
+<li>Ctrl+B Space，切换窗格布局（上下变成左右，左右变成上下）。</li>
+<li>Ctrl+B X，关闭当前正在使用的窗格（根据提示按 Y 确认关闭）。</li>
+<li>Ctrl+B D，分离（Detach）当前会话，回到 Shell 的终端环境。此时程序仍然保持在 tmux 会话中的状态。</li>
+<li>当我们使用 Ctrl+B D 分离了会话或者意外断开了连接，我们该如何恢复到之前的会话中呢？我们首先使用 tmux ls 命令查看当前都有哪些会话。记住会话名（会话名是冒号左边的内容，默认情况下是一个数字），使用 tmux a -t 会话名 恢复到原来的会话。</li>
+</ul>
+<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git init 会自动把当前目录变成一个空的 Git 仓库，这样就可以对当前目录下的内容进行版本管理了。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone</span><br><span class="line">git init 创建一个新的储存库，而 git clone &lt;URL&gt; 则是“克隆”一个已有的储存库到当前目录下。通常我们会从一个互联网地址（即 URL，统一资源定位符）进行克隆，所以一般这种操作可以理解为“下载”。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">这个命令可以查看当前分支的状态，以及当前工作区的变动和暂存区的内容，便于我们对工作区的概况进行掌握。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add</span><br><span class="line">使用这个命令，可以把一个新文件或者已经修改过的文件加入暂存区中。</span><br><span class="line">在你完成一部分实验内容之后，可以使用 git add . 将你的所有修改加入暂存区，也可以使用 git add &lt;filename&gt; 来将指定的文件加入暂存区。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git restore</span><br><span class="line">我们在修改一个文件之后，可能想要放弃这个修改。</span><br><span class="line">当这个文件还没有通过 git add 加入暂存区时，我们可以使用 git restore &lt;filename&gt; 来撤销对这个文件的修改，使其退回到上一个 commit 的状态。如果这个文件已经加入了暂存区，我们可以通过 git restore --staged &lt;filename&gt; 来取消暂存。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git checkout</span><br><span class="line">这个命令涉及到分支的知识，分支的概念在这里不会详细介绍，感兴趣的同学可以参考 [Pro Git](https:&#x2F;&#x2F;git-scm.com&#x2F;book&#x2F;zh&#x2F;v2)。涉及在各个 Lab 中进行切换。这时，使用 git checkout lab&lt;x&gt; 可以切换到相应的分支。</span><br><span class="line"></span><br><span class="line">请注意，在切换时，需要保证目前所有文件的状态均为“未修改”（没有修改过，或者已经提交）。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git commit</span><br><span class="line">使用 git commit -m &lt;message&gt; 这个命令将暂存区的修改提交到储存库中。当 message 参数有空格时需要把 message 用引号括起来。在提交时，要求给出一段说明性文字。这段文字可以任意填写，但建议按照提交内容填写，以保证多人协作时的可读性。本实验不会涉及多人协作，所以方便自己开发即可。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push</span><br><span class="line">这个命令将本地的 commit 推送到一个远程仓库。在课程实验中，这个命令可以将你的 commit 推送到 GitLab。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br><span class="line">这个命令将远程新建的分支下载到本地，并且将远端的更改合并到当前的分支。在利用评测机进行实验分支的初始化之后，可以在开发机中使用这个命令来将新的分支下载到本地。</span><br></pre></td></tr></table></figure>
+<h1 id="Shell-脚本"><a href="#Shell-脚本" class="headerlink" title="Shell 脚本"></a>Shell 脚本</h1><p><a href="https://wangdoc.com/bash/" target="_blank" rel="noopener">Bash 脚本教程</a><br>touch 命令创建的文件默认是没有“执行”权限的，需要手动添加。若发现 Shell 脚本执行时出现了“Permission denied”的错误，多半是因为没有添加“执行”权限。我们可以使用下面的命令手动添加“执行”权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod x &lt;文件名&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="Sed"><a href="#Sed" class="headerlink" title="Sed"></a>Sed</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sed</span><br><span class="line">sed [选项] &#39;命令&#39; 输入文本</span><br><span class="line">选项（常用）：</span><br><span class="line">-n：安静模式，只显示经过sed处理的内容。否则显示输入文本的所有内容。</span><br><span class="line">-i：直接修改读取的档案内容，而不是输出到屏幕。否则，只输出不编辑。</span><br><span class="line">命令（常用）：</span><br><span class="line">&lt;行号&gt;a&lt;内容&gt;： 新增，在行号后新增一行相应内容。行号可以是“数字”，在这一行之后新增，也可以是“起始行，终止行”，在其中的每一行后新增。当不写行号时，在每一行之后新增。使用$表示最后一行。后面的命令同理。</span><br><span class="line">&lt;行号&gt;c&lt;内容&gt;：取代。用内容取代相应行的文本。</span><br><span class="line">&lt;行号&gt;i&lt;内容&gt;：插入。在当前行的上面插入一行文本。</span><br><span class="line">&lt;行号&gt;d：删除当前行的内容。</span><br><span class="line">&lt;行号&gt;p：输出选择的内容。通常与选项-n一起使用。</span><br><span class="line">s&#x2F;&lt;re&gt;&#x2F;&lt;string&gt;：将&lt;re&gt;（正则表达式）匹配的内容替换为&lt;string&gt;。</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.runoob.com/linux/linux-comm-sed.html" target="_blank" rel="noopener">Sed 命令</a><br><a href="https://www.runoob.com/linux/linux-comm-awk.html" target="_blank" rel="noopener">Awk 命令</a></p>
+<h1 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h1><ul>
+<li>标准输入：stdin，由 0 表示。</li>
+<li>标准输出：stdout，由 1 表示。</li>
+<li>标准错误：stderr，由 2 表示。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;</span><br><span class="line">覆盖文件的原有内容</span><br><span class="line">&gt;&gt;</span><br><span class="line">在文件后追加命令的输出</span><br></pre></td></tr></table></figure>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls &#x2F; &gt; lsoutput.txt</span><br><span class="line">gcc 2&gt; gccerr</span><br></pre></td></tr></table></figure>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2023/02/15/mit6-172-hw2/" data-toggle="tooltip" data-placement="top" title="HW2 Profiling Serial MergeSort">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                <!-- tip start -->
+                
+
+                
+                <div class="comment_notes">
+                    <p>
+                        笔者能力有限，如有错漏，恳请读者谅解
+                    </p>
+                </div>
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Linux-基础操作命令"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Linux 基础操作命令</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#帮助命令"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">帮助命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#目录操作"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">目录操作</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#文件操作"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">文件操作</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#查找操作"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">查找操作</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#读取操作"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">读取操作</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#快捷键"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">快捷键</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Vim"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Vim</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#GCC-GNU-Compiler-Collection"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">GCC(GNU Compiler Collection)</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Make-amp-Makefile"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Make &amp; Makefile</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Ctags"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Ctags</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Tmux"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Tmux</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Git"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Git</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#常用命令"><span class="toc-nav-number">7.1.</span> <span class="toc-nav-text">常用命令</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Shell-脚本"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">Shell 脚本</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Sed"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">Sed</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#重定向"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">重定向</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+
+<style  type="text/css">
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Julian Chan 2023 
+                    <br>
+                    Powered by 
+                    <a href="https://github.com/ChenJulian/ChenJulian.github.io.git" target="_blank" rel="noopener">
+                        <i>ChenJulian</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=ChenJulian&repo=ChenJulian.github.io&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://julianchan-cjl.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;😃&quot;,&quot;🥰&quot;,&quot;😍&quot;,&quot;😜&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>
