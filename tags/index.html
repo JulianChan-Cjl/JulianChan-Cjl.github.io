@@ -169,14 +169,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -234,9 +234,9 @@
             <!-- 标签云 -->
             <div id='tag_clouds' class="tags">
                 
-                    <a href="#博客搭建" title="博客搭建" rel="1">博客搭建</a>
-                
                     <a href="#Performance Engineering Of Software Systems" title="Performance Engineering Of Software Systems" rel="4">Performance Engineering Of Software Systems</a>
+                
+                    <a href="#博客搭建" title="博客搭建" rel="1">博客搭建</a>
                 
                     <a href="#Scoop" title="Scoop" rel="1">Scoop</a>
                 
@@ -250,28 +250,6 @@
 
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="博客搭建">
-                    <span class="tag-text">博客搭建</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2022/11/10/blogToBuildBlog/">
-                        <h2 class="post-title">
-                            搭建snail主题的github博客踩坑历程回顾及建议
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="Performance Engineering Of Software Systems">
                     <span class="tag-text">Performance Engineering Of Software Systems</span>
                 </span>
@@ -281,9 +259,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2023/01/05/mit6172-1/">
+                     <a href="/2023/01/07/mit6172-2/">
                         <h2 class="post-title">
-                            Lecture 1 Introduction and Matrix Multiplication
+                            Lecture 2 Bentley Rules for Optimizing Work
                         </h2>
                         
                     </a>
@@ -296,9 +274,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2023/01/07/mit6172-2/">
+                     <a href="/2023/01/05/mit6172-1/">
                         <h2 class="post-title">
-                            Lecture 2 Bentley Rules for Optimizing Work
+                            Lecture 1 Introduction and Matrix Multiplication
                         </h2>
                         
                     </a>
@@ -329,6 +307,28 @@
                      <a href="/2023/02/15/mit6-172-hw2/">
                         <h2 class="post-title">
                             HW2 Profiling Serial MergeSort
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="博客搭建">
+                    <span class="tag-text">博客搭建</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2022/11/10/blogToBuildBlog/">
+                        <h2 class="post-title">
+                            搭建snail主题的github博客踩坑历程回顾及建议
                         </h2>
                         
                     </a>
@@ -544,7 +544,7 @@
         
 
         
-            <script type="text/javascript" src="/js/mouse-click.js" content='[&#34;😃&#34;,&#34;🥰&#34;,&#34;😍&#34;,&#34;😜&#34;]' color='[&#34;rgb(121,93,179)&#34; ,&#34;rgb(76,180,231)&#34; ,&#34;rgb(184,90,154)&#34;]'></script>
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;😃&quot;,&quot;🥰&quot;,&quot;😍&quot;,&quot;😜&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
         
 
         <!-- background effects end -->
@@ -554,6 +554,21 @@
     
         <script src="/js/ribbonDynamic.js"></script>
     
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>
